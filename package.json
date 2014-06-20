@@ -1,0 +1,23 @@
+{
+  "name": "predictor",
+  "version": "0.0.1",
+  "description": "An test assignment requested by GrabTaxi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gentlerain89/predictor.git"
+  },
+  "keywords": [
+    "predictor",
+    "gentlerain"
+  ],
+  "author": "Tran Vu Kieu <gentlerainvn@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gentlerain89/predictor/issues"
+  },
+  "homepage": "https://github.com/gentlerain89/predictor"
+}

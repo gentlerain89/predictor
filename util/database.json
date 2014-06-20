@@ -1,0 +1,10 @@
+{
+  "default": "mysql",
+
+  "mysql": {
+    "driver": "mysql",
+    "user": "root",
+    "password": "tvkelca1989",
+    "database": "predictor"
+  }
+}
