@@ -58,29 +58,31 @@ DataHelper.prototype.getNumberOfMissedBookingInTimeBlock = function(blockStart, 
 	var numberOfBookingsPerArea = {};
 	var numberOfMissedBookingsPerArea = {};
 	var that = this;
-	Booking.where("time > ? and time < ?", [null, blockStart, blockEnd])
-		   .each(that.connection, function (error, booking){
+	Booking.where("time > ? and time < ?", [blockStart, blockEnd])
+		   .all(that.connection, function (error, bookings){
 		   		if(error) {
 		   			//Throw exception
 					that.emit("data_helper_exception", error);
 					return;
 		   		}
-		   		if(numberOfBookingsPerArea[booking.areaId]) {
-		   			numberOfBookingsPerArea[booking.areaId]  += 1;	
-		   		} else {
-		   			numberOfBookingsPerArea[booking.areaId]  = 0;	
-		   		}
-
-		   		if(!booking.driverId) {
-					if(numberOfMissedBookingsPerArea[booking.areaId]) {
-		   				numberOfMissedBookingsPerArea[booking.areaId]  += 1;	
+		   		var areaId = 0;
+		   		for(var i = 0 ; i < bookings.length; i++) {
+		   			 areaId = "" + bookings[i].area_id;
+		   			 console.log(numberOfBookingsPerArea[areaId]);
+			   		if(numberOfBookingsPerArea[areaId] >= 0) {
+			   			numberOfBookingsPerArea[areaId]++;	
 			   		} else {
-			   			numberOfMissedBookingsPerArea[booking.areaId]  = 0;	
-			   		}	
+			   			numberOfBookingsPerArea[areaId]  = 1;	
+			   		}
+
+			   		if(!bookings[i].driver_id) {
+						if(numberOfMissedBookingsPerArea[areaId] >= 0) {
+			   				numberOfMissedBookingsPerArea[areaId]++;	
+				   		} else {
+				   			numberOfMissedBookingsPerArea[areaId]  = 1;	
+				   		}	
+			   		}
 		   		}
-		   },
-		   function(error){
-		   		//all done
 		   		that.emit("numberOfBookings", [numberOfBookingsPerArea, numberOfMissedBookingsPerArea]);
 		   });
 }
