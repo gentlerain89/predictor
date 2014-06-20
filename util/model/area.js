@@ -1,5 +1,5 @@
 var persist = require("persist");
-var DriverLog = require("./DriverLog");
+var DriverLog = require("./driver_log");
 var type = persist.type;
 var Area = persist.define("area", {
   "id" : {type:type.INTEGER, primaryKey:true},
