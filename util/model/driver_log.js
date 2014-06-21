@@ -10,5 +10,7 @@ var DriverLog = persist.define("driver_travel_log", {
   "time": type.DATETIME,//The time block, 30 mins each block (ex: "2014/06/19 9:30", "2014/06/19 10:00")
   "isAvailable" : type.INTEGER // The status of tracked driver in this time block (has passenger or not)
 });
+DriverLog.DRIVER_STATUS_AVAILABLE = 1;
+DriverLog.DRIVER_STATUS_UNAVAILABLE = 0;
 
 module.exports = DriverLog;

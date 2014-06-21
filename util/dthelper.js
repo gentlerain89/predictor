@@ -29,29 +29,25 @@ DataHelper.prototype.initConnection = function(){
 DataHelper.prototype.getNumberOfAvailableTaxiesInTimeBlock = function(blockStart, blockEnd) {
 	var numOfDriversPerArea = {};
 	var that = this;
-	DriverLog.where("time > ? and time < ?", [blockStart, blockEnd]).each(that.connection, function(error, driveLog){
+	var driverLog = null;
+	DriverLog.where("time >= ? and time < ? and isAvailable = ?", [blockStart, blockEnd, DriverLog.DRIVER_STATUS_AVAILABLE])
+	 .all(that.connection, function(error, driveLogs){
 		if(error) {
 			//Throw exception
 			that.emit("data_helper_exception", error);
 			return ;
-		} 
-		driveLog.driver.where({'isAvailable' : 0}).count(that.connection, function(err, driverCount) {
-			if(err) {
-				that.emit("data_helper_exception", err);	
-				return;
+		}else{
+			for(var i = 0 ; i < driveLogs.length ; i++) {
+				driverLog = driveLogs[i];
+				if(numOfDriversPerArea[driverLog.areaId]) {
+					numOfDriversPerArea[driverLog.areaId]  += driverCount;
+				} else {
+					numOfDriversPerArea[driverLog.areaId] = 0;
+				}
 			}
-			if(numOfDriversPerArea[log.areaId]) {
-				numOfDriversPerArea[log.areaId]  += driverCount;
-			} else {
-				numOfDriversPerArea[log.areaId] = 0;
-			}
-		});
-		
-	},
-	function(error){
-		//all done
-		that.emit("numOfDrivers", numOfDriversPerArea);
-	})
+	 		that.emit("number_of_drivers_ready", numOfDriversPerArea);
+		}	
+	});
 }
 
 DataHelper.prototype.getNumberOfMissedBookingInTimeBlock = function(blockStart, blockEnd) {
@@ -68,7 +64,6 @@ DataHelper.prototype.getNumberOfMissedBookingInTimeBlock = function(blockStart, 
 		   		var areaId = 0;
 		   		for(var i = 0 ; i < bookings.length; i++) {
 		   			 areaId = "" + bookings[i].area_id;
-		   			 console.log(numberOfBookingsPerArea[areaId]);
 			   		if(numberOfBookingsPerArea[areaId] >= 0) {
 			   			numberOfBookingsPerArea[areaId]++;	
 			   		} else {
@@ -83,8 +78,21 @@ DataHelper.prototype.getNumberOfMissedBookingInTimeBlock = function(blockStart, 
 				   		}	
 			   		}
 		   		}
-		   		that.emit("numberOfBookings", [numberOfBookingsPerArea, numberOfMissedBookingsPerArea]);
+		   		that.emit("number_of_bookings_ready", [numberOfBookingsPerArea, numberOfMissedBookingsPerArea]);
 		   });
+}
+
+DataHelper.prototype.getAreasDetail = function(areaIds) {
+	var that = this;
+	Area.whereIn('id', areaIds).all(that.connection,function(error, areas){
+		if(error) {
+			//Throw exception
+			that.emit("data_helper_exception", error);
+			return;
+		} else {
+			that.emit("get_detail_done", areas);
+		}
+	});
 }
 
 module.exports = DataHelper;
