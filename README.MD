@@ -10,11 +10,21 @@ Pull the source code with all dependencies (node modules) at : https://github.co
 +Step 2
 Execute the sql backup file (\predictor\sql\predictor_backup_20140621.sql) to restore database
 
++Step 3
+Pull the module "redis-client-manager" and copy it to "\node_modules"
+The run these line:
+
+cd \node_modules\redis-client-manager
+
+npm install
+
 +Step 3:
 Start Redis server with default configuration
 
 +Step 4:
-execute the command: npm test to see the module run
+Go back to "preditors" work directory.
+
+execute the command: "npm test" to see the module run
 
 ##Logic that has been implemented to the module:
 
