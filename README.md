@@ -40,20 +40,20 @@ The logic is super simple
 
 +For example:
 
-+Current time : 08:00 am (20/06/2014)
+   Current time : 08:00 am (20/06/2014)
 
-+We want to know next hot areas in between 11:30 am - 12:00 am (20/06/2014)
+   We want to know next hot areas in between 11:30 am - 12:00 am (20/06/2014)
 
-+To get predict for a current time, we look and analyse the data of same time block of previous date(19/06/2014):
+   To get predict for a current time, we look and analyse the data of same time block of previous date(19/06/2014):
 
-+ If the ratio between available taxis and bookings are too low (<40%) and the number of missed booking (passenger fail to catch a taxi) is quite high (>3)
---> the area will be push to Redis as next target.
+   If the ratio between available taxis and bookings are too low (<40%) and the number of missed booking (passenger fail to catch a taxi) is quite high (>3)
+-->the area will be push to Redis as next target.
 
-3. With the test data, we see that for area with id=1:
+3.With the test data, we see that for area with id=1:
 
-+ There are 6 bookings (in between 11:30 and 12:00 19/06/2014)
++There are 6 bookings (in between 11:30 and 12:00 19/06/2014)
 
-+ But only 2 drivers are available. 
++But only 2 drivers are available. 
 
 -->The ratio between supply and demand is lower than 40% --> this area will be returned.
   
