@@ -65,5 +65,5 @@ The logic is super simple
 
 +But only 2 drivers are available. 
 
--->The ratio between supply and demand is lower than 40% --> this area will be returned.
+-->The ratio between supply and demand is lower than 40% --> this area will be returned. hehe
   
